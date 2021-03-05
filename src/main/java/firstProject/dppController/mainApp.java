@@ -17,7 +17,6 @@ public class mainApp {
         List<Chopstick> chopsticks = new ArrayList<>();
         List<Philosopher> philosophers = new ArrayList<>();
 
-
         // dodanie pięciu pałeczek
         for (int i = 0; i < 5; i++) {
             chopsticks.add(new Chopstick(i));

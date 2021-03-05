@@ -8,7 +8,6 @@ public class Philosopher extends Thread {
     private Chopstick rightChopstick;
     private Frame frame;
 
-
     //regulowanie prędkości działania wątków
     public final int slower = 1;
 
@@ -37,9 +36,6 @@ public class Philosopher extends Thread {
             }
             System.out.println(getName() + " skończył myśleć!");
 
-
-//            //jeśli id filozofa jest nieparzyste to najpierw podnosi lewą pałeczkę
-//            if (id % 2 == 1) {
             try {
                 try {
                     mainApp.semaphore.acquire();
@@ -78,7 +74,6 @@ public class Philosopher extends Thread {
                         System.out.println(e);
                     }
 
-
                 } finally {
                     System.out.println(getName() + " skończył jeść!" + "\n");
                     frame.isThinking(id);
@@ -100,60 +95,6 @@ public class Philosopher extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-//            }
-//            // filozofowie o numerach parzystych najpierw podnoszą prawą pałeczkę
-//            else {
-//                // Filozof próbuje podnieść prawą pałeczkę
-//                System.out.println(getName() + " chce podnieść prawą pałeczkę!");
-//                rightChopstick.takeChopstick();
-//
-//
-//                frame.takeChopstick(id, rightChopstick.getID());
-//                System.out.println(getName() + " podniósł prawą pałeczkę!");
-//
-//                // czekamy chwilę na podniesienie drugiej pałeczki
-//                try {
-//                    Thread.sleep(maxWaitTimeToTakeSecondChopstick);
-//                } catch (InterruptedException e) {
-//                    System.out.println(e);
-//                }
-//
-//                // Filozof próbuje podnieść lewą pałeczkę
-//                System.out.println(getName() + " chce podnieść lewą połeczkę");
-//                leftChopstick.takeChopstick();
-//
-//
-//                frame.takeChopstick(id, leftChopstick.getID());
-//                System.out.println(getName() + " podniósł lewą połeczkę");
-//
-//                // Filozof je
-//                frame.isEating(id);
-//                System.out.println(getName() + " je!");
-//
-//                // przerwa na czas jedzenia
-//                try {
-//                    Thread.sleep((long) (Math.random() * maxEatTime));
-//                } catch (InterruptedException e) {
-//                    System.out.println(e);
-//                }
-//
-//
-//                System.out.println(getName() + " skończył jeść!" + "\n");
-//                frame.isThinking(id);
-//
-//                // opuszczenie prawej pałeczki
-//                frame.releaseChopstick(id, rightChopstick.getID());
-//                rightChopstick.releaseChopstick();
-//                System.out.println(getName() + " opuścił lewą pałeczkę!");
-//
-//                // opuszczenie lewej pałeczki
-//                frame.releaseChopstick(id, leftChopstick.getID());
-//                leftChopstick.releaseChopstick();
-//                System.out.println(getName() + " opuścił lewą pałeczkę!");
-//
-//
-//            }
         }
     }
 }
