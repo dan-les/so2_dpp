@@ -18,7 +18,7 @@ public class Philosopher extends Thread {
 
     Philosopher(int ID, Frame frame, Chopstick left, Chopstick right) {
         this.id = ID;
-        setName("Filozof nr " + ID);
+        setName("Filozof " + ID);
         this.leftChopstick = left;
         this.rightChopstick = right;
         this.frame = frame;

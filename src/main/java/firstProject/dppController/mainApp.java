@@ -33,9 +33,9 @@ public class mainApp {
         philosophers.add(new Philosopher(4, gui, chopsticks.get(4), chopsticks.get(3)));
 
         //wystartowanie wątków
-        for (int i = 0; i < 5; i++) {
-            philosophers.get(i).start();
-            System.out.println("Wątek filozofa nr " + i + " wystartował!");
+        for (Philosopher p : philosophers) {
+            p.start();
+            System.out.println("Wątek '" + p.getName() + "' wystartował!");
         }
     }
 }
