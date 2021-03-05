@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class DiningPhilosophers {
+public class mainApp {
 
 
     // w jednym czasie mogą być użyte pałeczki tylko przez 4 filozofów

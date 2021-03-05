@@ -42,7 +42,7 @@ public class Philosopher extends Thread {
 //            if (id % 2 == 1) {
             try {
                 try {
-                    DiningPhilosophers.semaphore.acquire();
+                    mainApp.semaphore.acquire();
                     //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
                     // Filozof próbuje podnieść lewą pałeczkę
                     System.out.println(getName() + " chce podnieść lewą pałeczkę!");
@@ -94,7 +94,7 @@ public class Philosopher extends Thread {
                     System.out.println(getName() + " opuścił lewą pałeczkę!");
 
                     //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
-                    DiningPhilosophers.semaphore.release();
+                    mainApp.semaphore.release();
                     //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
                 }
             } catch (InterruptedException e) {
