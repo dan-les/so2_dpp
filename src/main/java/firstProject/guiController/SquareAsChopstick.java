@@ -2,21 +2,23 @@ package firstProject.guiController;
 
 import java.awt.*;
 
-class CircleFilledAsPlate {
-
+class SquareAsChopstick {
     private Point point;
     private Color color;
+    private int ID;
     private int philosopheId;
-    private int size;
-    private int ident;
 
-    CircleFilledAsPlate(int ident, Point coords, int size) {
-        this.ident = ident;
-        this.size = size;
+    SquareAsChopstick(int ID, Point coordStart) {
+        this.ID = ID;
         this.philosopheId = Integer.MAX_VALUE;
         setColor(philosopheId);
-        this.point = new Point(coords);
+        this.point = new Point(coordStart);
+    }
 
+
+    public void drawFilledRect(Graphics g) {
+        g.setColor(color);
+        g.fillRect(point.x, point.y, 25, 25);
     }
 
     public void setColor(int phID) {
@@ -34,11 +36,6 @@ class CircleFilledAsPlate {
             this.color = Color.PINK;
         else if (phID == Integer.MAX_VALUE)
             this.color = Color.DARK_GRAY;
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillOval(point.x, point.y, size, size);
     }
 
 }

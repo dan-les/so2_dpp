@@ -1,19 +1,17 @@
 package firstProject.dppController;
 
 import firstProject.guiController.Frame;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class mainApp {
 
-
     // w jednym czasie mogą być użyte pałeczki tylko przez 4 filozofów
-    public static Semaphore semaphore = new Semaphore(2);
+    public static Semaphore semaphore = new Semaphore(4);
 
     public static void main(String args[]) {
-
+        Frame gui = new Frame();
         List<Chopstick> chopsticks = new ArrayList<>();
         List<Philosopher> philosophers = new ArrayList<>();
 
@@ -21,8 +19,6 @@ public class mainApp {
         for (int i = 0; i < 5; i++) {
             chopsticks.add(new Chopstick(i));
         }
-
-        Frame gui = new Frame();
 
         // dodanie filozofów oraz przydzielenie im pałeczek, które mogą podniosić
         philosophers.add(new Philosopher(0, gui, chopsticks.get(0), chopsticks.get(4)));

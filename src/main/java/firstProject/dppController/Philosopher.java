@@ -9,28 +9,29 @@ public class Philosopher extends Thread {
     private Frame frame;
 
     //regulowanie prędkości działania wątków
-    public final int slower = 1;
+    public final int slower = 2;
 
-    int maxEatTime = 4000 * slower;
-    int maxThinkTime = 6000 * slower;
-    int maxWaitTimeToTakeSecondChopstick = 1000 * slower;
+    int maxEatTimeMs = 4000 * slower;
+    int maxThinkTimeMs = 6000 * slower;
+    int maxWaitTimeToTakeSecondChopstickMs = 1000 * slower;
+    int maxWaitTimeToReleaseSecondChopstickMs = 300;
 
-    Philosopher(int ID, Frame frame, Chopstick left, Chopstick right) {
-        this.id = ID;
-        setName("Filozof " + ID);
-        this.leftChopstick = left;
-        this.rightChopstick = right;
+    Philosopher(int id, Frame frame, Chopstick leftChopstick, Chopstick rightChopstick) {
+        this.id = id;
+        this.leftChopstick = leftChopstick;
+        this.rightChopstick = rightChopstick;
         this.frame = frame;
+        setName("Filozof " + id);
     }
 
     public void run() {
         while (true) {
             // na początku filozof myśli
-            frame.isThinking(id);
             System.out.println(getName() + " myśli!");
+            frame.isThinking(id);
 
             try {
-                Thread.sleep((long) (Math.random() * maxThinkTime));
+                Thread.sleep((long) (Math.random() * maxThinkTimeMs));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -39,18 +40,16 @@ public class Philosopher extends Thread {
             try {
                 try {
                     mainApp.semaphore.acquire();
-                    //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
+
                     // Filozof próbuje podnieść lewą pałeczkę
                     System.out.println(getName() + " chce podnieść lewą pałeczkę!");
                     leftChopstick.takeChopstick();
-
-
-                    frame.takeChopstick(id, leftChopstick.getID());
                     System.out.println(getName() + " podniósł lewą pałeczkę!");
+                    frame.takeChopstick(id, leftChopstick.getId());
 
                     // czekamy chwilę na podniesienie drugiej pałeczki
                     try {
-                        Thread.sleep(maxWaitTimeToTakeSecondChopstick);
+                        Thread.sleep(maxWaitTimeToTakeSecondChopstickMs);
                     } catch (InterruptedException e) {
                         System.out.println(e);
                     }
@@ -58,18 +57,15 @@ public class Philosopher extends Thread {
                     // Filozof próbuje podnieść prawą pałeczkę
                     System.out.println(getName() + " chce podnieść prawą połeczkę");
                     rightChopstick.takeChopstick();
-
-
-                    frame.takeChopstick(id, rightChopstick.getID());
                     System.out.println(getName() + " podniósł prawą połeczkę");
+                    frame.takeChopstick(id, rightChopstick.getId());
 
                     // Filozof je
-                    frame.isEating(id);
                     System.out.println(getName() + " je!");
-
-                    // przerwa na czas jedzenia
+                    frame.isEating(id);
+                    // czas jedzenia
                     try {
-                        Thread.sleep((long) (Math.random() * maxEatTime));
+                        Thread.sleep((long) (Math.random() * maxEatTimeMs));
                     } catch (InterruptedException e) {
                         System.out.println(e);
                     }
@@ -79,18 +75,32 @@ public class Philosopher extends Thread {
                     frame.isThinking(id);
 
                     // opuszczenie lewej pałeczki
-                    frame.releaseChopstick(id, leftChopstick.getID());
                     leftChopstick.releaseChopstick();
                     System.out.println(getName() + " opuścił lewą pałeczkę!");
+                    frame.releaseChopstick(id, leftChopstick.getId());
+
+                    // czekamy chwilę na opuszczenie drugiej pałeczki
+                    try {
+                        Thread.sleep(maxWaitTimeToReleaseSecondChopstickMs);
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    }
 
                     // opuszczenie prawej pałeczki
-                    frame.releaseChopstick(id, rightChopstick.getID());
                     rightChopstick.releaseChopstick();
                     System.out.println(getName() + " opuścił lewą pałeczkę!");
+                    frame.releaseChopstick(id, rightChopstick.getId());
 
-                    //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                    }
+
+                    //System.out.println("available Semaphore permits now: " +
+                    // mainApp.semaphore.availablePermits());
                     mainApp.semaphore.release();
-                    //System.out.println("available Semaphore permits now: " + semaphore.availablePermits());
+                    //System.out.println("available Semaphore permits now: " +
+                    // mainApp.semaphore.availablePermits());
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

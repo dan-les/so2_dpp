@@ -1,45 +1,38 @@
 package firstProject.dppController;
 
 public class Chopstick {
-    private final int ID;
-    private boolean isUnused;
+    private final int id;
+    private boolean isUsed;
 
     Chopstick(int ID) {
-        this.ID = ID;
-        this.isUnused = true;
+        this.id = ID;
+        this.isUsed = false;
     }
 
-    public int getID() {
-        return (ID);
+    public int getId() {
+        return id;
     }
 
     synchronized void takeChopstick() {
-
-
         // czekamy aż będzie można wziąć pałeczkę
-        while (!isUnused) {
+        //     - będzie ona nieużywana
+        while (isUsed) {
             try {
                 wait();
-            } catch (InterruptedException e) {
-                System.out.println(("Exception in class: " + Chopstick.class.getName() + e));
+            } catch (InterruptedException interruptedException) {
+                System.out.println(("Exception in class: " +
+                        Chopstick.class.getName() + interruptedException));
             }
         }
+        isUsed = true;
 
-        isUnused = false;
-
-        System.out.println("Pałeczka nr  " + getID() + " została podniesiona!");
+        System.out.println("Pałeczka nr  " + getId() + " została podniesiona!");
         notifyAll();
     }
 
     synchronized void releaseChopstick() {
-        while (isUnused) {
-            try {
-                wait();
-            } catch (InterruptedException ignored) {
-            }
-        }
-        isUnused = true;
-        System.out.println("Pałeczka nr  " + getID() + " została odłożona!");
+        isUsed = false;
+        System.out.println("Pałeczka nr  " + getId() + " została odłożona!");
         notifyAll();
     }
 }
