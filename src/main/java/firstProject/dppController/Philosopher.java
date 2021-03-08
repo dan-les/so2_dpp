@@ -91,11 +91,6 @@ public class Philosopher extends Thread {
                     System.out.println(getName() + " opuścił lewą pałeczkę!");
                     frame.releaseChopstick(id, rightChopstick.getId());
 
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                    }
-
                     //System.out.println("available Semaphore permits now: " +
                     // mainApp.semaphore.availablePermits());
                     mainApp.semaphore.release();
