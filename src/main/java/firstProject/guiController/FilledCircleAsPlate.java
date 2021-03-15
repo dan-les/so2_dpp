@@ -32,8 +32,10 @@ class FilledCircleAsPlate {
             this.color = Color.CYAN;
         else if (phID == 4)
             this.color = Color.PINK;
+        else if (phID == 5)
+            this.color = Color.BLACK;
         else if (phID == Integer.MAX_VALUE)
-            this.color = Color.DARK_GRAY;
+            this.color = Color.GRAY;
     }
 
     public void draw(Graphics g) {

@@ -15,7 +15,6 @@ class SquareAsChopstick {
         this.point = new Point(coordStart);
     }
 
-
     public void drawFilledRect(Graphics g) {
         g.setColor(color);
         g.fillRect(point.x, point.y, 25, 25);
@@ -35,7 +34,6 @@ class SquareAsChopstick {
         else if (phID == 4)
             this.color = Color.PINK;
         else if (phID == Integer.MAX_VALUE)
-            this.color = Color.DARK_GRAY;
+            this.color = Color.GRAY;
     }
-
 }

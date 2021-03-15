@@ -1,5 +1,6 @@
 package firstProject.guiController;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -7,9 +8,9 @@ import java.util.List;
 
 public class Frame extends JFrame {
 
-    private List<Circle> circles = new ArrayList<>();
-    private List<FilledCircleAsPlate> circlesFilled = new ArrayList<>();
-    private List<SquareAsChopstick> chops = new ArrayList<>();
+    static List<Circle> circles = new ArrayList<>();
+    static List<FilledCircleAsPlate> circlesFilled = new ArrayList<>();
+    static List<SquareAsChopstick> chops = new ArrayList<>();
 
     public Frame() {
         super();
@@ -18,8 +19,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setTitle("Problem ucztujących filozofów - Daniel Leśniewicz - 250996");
-        setSize(680, 600);
-        setBackground(Color.LIGHT_GRAY);
+        setSize(680, 550);
 
         //dodanie kolorowych otoczek każdego talerza jako okręgi
         circles.add(new Circle(new Point(298, 98), 74, Color.BLUE));
@@ -43,42 +43,40 @@ public class Frame extends JFrame {
         chops.add(new SquareAsChopstick(4, new Point(270, 200)));
 
         setVisible(true);
-        setResizable(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        add(new FrameSurface());
     }
 
     // jeśli filozof je, to zmieiamy kolor jego talerza na kolor odpowidający danemu filozofowi
-    public void isEating(int phID) {
-        circlesFilled.get(phID).setColor(phID);
+    public void isEating(int phId) {
+        circlesFilled.get(phId).setColor(phId);
+        repaint();
+    }
+
+    // jeśli filozof odchodzi od stołu, to zmieiamy kolor jego talerza na kolor czarny
+    public void leaveTable(int phId) {
+        circlesFilled.get(phId).setColor(5);
         repaint();
     }
 
     // jeśli filozof myśli, to zmieniamy kolor jego talerza na ciemno-szary
-    public void isThinking(int phID) {
-        circlesFilled.get(phID).setColor(Integer.MAX_VALUE);
+    public void isThinking(int phId) {
+        circlesFilled.get(phId).setColor(Integer.MAX_VALUE);
         repaint();
     }
 
     // jeśli została wzięta pałeczka, to zmieniamy jej kolor na kolor odpowiadający filozofowi, którą ją podniósł
-    public void takeChopstick(int phID, int chID) {
-        chops.get(chID).setColor(phID);
+    public void takeChopstick(int phId, int chId) {
+        chops.get(chId).setColor(phId);
         repaint();
     }
 
     // jeśli została odłożona pałeczka, to zmieniamy jej kolor na ciemno-szary
-    public void releaseChopstick(int phID, int chID) {
-        chops.get(chID).setColor(Integer.MAX_VALUE);
+    public void releaseChopstick(int phID, int chId) {
+        chops.get(chId).setColor(Integer.MAX_VALUE);
         repaint();
     }
 
-    public void paint(Graphics g) {
-        g.setColor(this.getBackground());
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-        for (int i = 0; i < 5; i++) {
-            circlesFilled.get(i).draw(g);
-            chops.get(i).drawFilledRect(g);
-            circles.get(i).draw(g);
-        }
-    }
 
 }

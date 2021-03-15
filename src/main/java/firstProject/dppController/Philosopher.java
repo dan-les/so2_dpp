@@ -2,14 +2,18 @@ package firstProject.dppController;
 
 import firstProject.guiController.Frame;
 
+import static com.diogonunes.jcolor.Ansi.colorize;
+import static com.diogonunes.jcolor.Attribute.*;
+
 public class Philosopher extends Thread {
     private int id;
     private Chopstick leftChopstick;
     private Chopstick rightChopstick;
     private Frame frame;
+    private Integer eatQuantity;
 
     //regulowanie prędkości działania wątków
-    public final int slower = 2;
+    public final int slower = 3;
 
     int maxEatTimeMs = 4000 * slower;
     int maxThinkTimeMs = 6000 * slower;
@@ -17,6 +21,7 @@ public class Philosopher extends Thread {
     int maxWaitTimeToReleaseSecondChopstickMs = 300;
 
     Philosopher(int id, Frame frame, Chopstick leftChopstick, Chopstick rightChopstick) {
+        this.eatQuantity = 0;
         this.id = id;
         this.leftChopstick = leftChopstick;
         this.rightChopstick = rightChopstick;
@@ -24,10 +29,15 @@ public class Philosopher extends Thread {
         setName("Filozof " + id);
     }
 
+    public Integer getEatQuantity() {
+        return eatQuantity;
+    }
+
     public void run() {
         while (true) {
             // na początku filozof myśli
-            System.out.println(getName() + " myśli!");
+
+            System.out.println(colorize(getName() + " myśli!", BLUE_TEXT()));
             frame.isThinking(id);
 
             try {
@@ -61,7 +71,8 @@ public class Philosopher extends Thread {
                     frame.takeChopstick(id, rightChopstick.getId());
 
                     // Filozof je
-                    System.out.println(getName() + " je!");
+                    String text = getName().toUpperCase() + " je!";
+                    System.out.println(colorize(text, GREEN_TEXT(), BOLD()));
                     frame.isEating(id);
                     // czas jedzenia
                     try {
@@ -71,8 +82,14 @@ public class Philosopher extends Thread {
                     }
 
                 } finally {
-                    System.out.println(getName() + " skończył jeść!" + "\n");
+                    String text = getName().toUpperCase() + " skończył jeść!";
+                    System.out.println(colorize(text, BRIGHT_RED_TEXT(), BOLD()));
+
                     frame.isThinking(id);
+                    ++eatQuantity;
+                    System.out.println(colorize(getName().toUpperCase()
+                            + " JADŁ " + getEatQuantity()
+                            + " RAZ(Y)", BRIGHT_RED_TEXT()));
 
                     // opuszczenie lewej pałeczki
                     leftChopstick.releaseChopstick();
@@ -91,15 +108,32 @@ public class Philosopher extends Thread {
                     System.out.println(getName() + " opuścił lewą pałeczkę!");
                     frame.releaseChopstick(id, rightChopstick.getId());
 
+                    System.out.println();
                     //System.out.println("available Semaphore permits now: " +
                     // mainApp.semaphore.availablePermits());
                     mainApp.semaphore.release();
+
                     //System.out.println("available Semaphore permits now: " +
                     // mainApp.semaphore.availablePermits());
+
+                    if (eatQuantity == mainApp.maxEatQuantity) {
+                        Thread.currentThread().interrupt();
+                        System.out.println(
+                                colorize(
+                                        getName() + " ODCHODZI OD STOŁU!",
+                                        BRIGHT_WHITE_TEXT(),
+                                        RED_BACK(),
+                                        BOLD())
+                        );
+                        frame.leaveTable(id);
+                        return;
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
     }
+
+
 }

@@ -7,7 +7,6 @@ class Circle {
     private Color color;
     private int size;
 
-
     Circle(Point coords, int size, Color color) {
         this.size = size;
         this.color = color;
@@ -18,5 +17,4 @@ class Circle {
         g.setColor(color);
         g.drawOval(point.x, point.y, size, size);
     }
-
 }

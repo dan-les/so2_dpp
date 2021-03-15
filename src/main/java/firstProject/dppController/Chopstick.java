@@ -26,7 +26,7 @@ public class Chopstick {
         }
         isUsed = true;
 
-        System.out.println("Pałeczka nr  " + getId() + " została podniesiona!");
+        System.out.println("Pałeczka nr " + getId() + " została podniesiona!");
         notifyAll();
     }
 
