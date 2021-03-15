@@ -1,7 +1,6 @@
 package firstProject.dppController;
 
 import firstProject.guiController.Frame;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -11,7 +10,7 @@ public class mainApp {
     // w jednym czasie mogą być użyte pałeczki tylko przez 4 filozofów
     public static Semaphore semaphore = new Semaphore(4);
     // ile razy je każdy filozof
-    public final static Integer maxEatQuantity = 2;
+    public final static Integer maxEatQuantity = 3;
 
 
     public static void main(String args[]) {

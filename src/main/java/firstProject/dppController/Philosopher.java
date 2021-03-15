@@ -36,7 +36,6 @@ public class Philosopher extends Thread {
     public void run() {
         while (true) {
             // na początku filozof myśli
-
             System.out.println(colorize(getName() + " myśli!", BLUE_TEXT()));
             frame.isThinking(id);
 
